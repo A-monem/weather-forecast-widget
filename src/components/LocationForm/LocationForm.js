@@ -1,25 +1,55 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
-  Button, TextField, FormControlLabel, Checkbox,
-  Link, Paper, Box, Grid, Typography,
+  Button, TextField,
 } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 function LocationForm() {
+  const [location, setLocation] = useState('');
+  const theme = useTheme();
+  const useStyles = makeStyles(() => ({
+    form: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+    },
+    button: {
+      margin: theme.spacing(3),
+    },
+  }));
+  const classes = useStyles();
+
+  const handleSetLocation = (e) => {
+    setLocation(e.target.value);
+  };
+
+  const handleSubmitLocation = (e) => {
+    e.preventDefault();
+  };
+
   return (
-    <form>
+    <form className={classes.form} onSubmit={handleSubmitLocation}>
       <TextField
         variant="outlined"
         margin="normal"
         required
         fullWidth
-        id="email"
-        label="Email Address"
-        name="email"
-        autoComplete="email"
+        id="location"
+        label="Enter Location"
+        name="location"
+        placeholder="London"
         autoFocus
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={handleSetLocation}
       />
+      <Button
+        variant="contained"
+        color="secondary"
+        type="submit"
+        className={classes.button}
+      >
+        Submit
+      </Button>
     </form>
   );
 }

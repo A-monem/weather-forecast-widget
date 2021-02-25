@@ -16,7 +16,7 @@ function Dashboard() {
 
   return (
     <div>
-      <Box m={3}>
+      <Box m={4}>
         <Typography variant="h3" color="primary" style={{ fontFamily: 'Pacifico', textAlign: 'center' }}>Welcome to my weather app</Typography>
       </Box>
       <Grid container>
