@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { useAlert } from '../../context/AlertContext';
 import { getWeather, getLocation } from '../../api/metaWeather';
 
-function LocationForm({ handleSetWeather }) {
+function LocationForm({ handleSetWeather, handleShowLoading }) {
   const [location, setLocation] = useState('');
   const [multiLocations, setMultiLocations] = useState([]);
   const [open, setOpen] = useState(false);
@@ -33,22 +33,27 @@ function LocationForm({ handleSetWeather }) {
   const classes = useStyles();
 
   const handleSetLocation = (e) => {
+    handleSetWeather([]);
     setLocation(e.target.value);
   };
 
   const handleGetWeather = (id) => {
     getWeather(id)
-      .then((weatherInfo) => handleSetWeather(weatherInfo))
+      .then((weatherInfo) => {
+        handleShowLoading(false);
+        handleSetWeather(weatherInfo);
+      })
       .catch((error) => showErrorAlert(error));
   };
 
   const handleGetLocation = (e) => {
     e.preventDefault();
-
+    handleShowLoading(true);
     getLocation(location)
       .then((locationsList) => {
         switch (locationsList.length) {
           case 0:
+            handleShowLoading(false);
             showErrorAlert('City does not exist');
             break;
           case 1:
@@ -56,6 +61,7 @@ function LocationForm({ handleSetWeather }) {
             handleGetWeather(locationsList[0].id);
             break;
           default:
+            handleShowLoading(false);
             setMultiLocations(locationsList);
             setOpen(true);
         }
@@ -68,6 +74,7 @@ function LocationForm({ handleSetWeather }) {
   };
 
   const handleSelectLocation = (selectedLocation) => {
+    handleShowLoading(true);
     setLocation(selectedLocation.title);
     handleGetWeather(selectedLocation.id);
     handleCloseList();
@@ -116,6 +123,7 @@ function LocationForm({ handleSetWeather }) {
 
 LocationForm.propTypes = {
   handleSetWeather: PropTypes.func.isRequired,
+  handleShowLoading: PropTypes.func.isRequired,
 };
 
 export default LocationForm;

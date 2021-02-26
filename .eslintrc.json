@@ -20,6 +20,7 @@
     "rules": {
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
         "linebreak-style": "off",
+        "react/forbid-prop-types": "off",
         "padding-line-between-statements":  [
             "error",
             // Always require blank lines after directive (like 'use-strict'), except between directives
