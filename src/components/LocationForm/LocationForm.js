@@ -3,10 +3,11 @@ import {
   Button, TextField, Menu, MenuItem,
 } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import axios from 'axios';
+import PropTypes from 'prop-types';
 import { useAlert } from '../../context/AlertContext';
+import { getWeather, getLocation } from '../../api/metaWeather';
 
-function LocationForm() {
+function LocationForm({ handleSetWeather }) {
   const [location, setLocation] = useState('');
   const [multiLocations, setMultiLocations] = useState([]);
   const [open, setOpen] = useState(false);
@@ -35,39 +36,50 @@ function LocationForm() {
     setLocation(e.target.value);
   };
 
-  const handleSubmitLocation = (e) => {
-    e.preventDefault();
-    // I am useing a node server deployed on heroku to do the api calls to MetaWeather in order to
-    // bypass CORS issue
-    // axios.get(`https://limitless-dusk-13082.herokuapp.com/api/weather/${location}`)
-    axios.get(`http://localhost:4000/api/weather/${location}`)
-      .then((response) => {
-        const locationsList = response.data.map((loc) => ({ title: loc.title, id: loc.woeid }));
+  const handleGetWeather = (id) => {
+    getWeather(id)
+      .then((weatherInfo) => handleSetWeather(weatherInfo))
+      .catch((error) => showErrorAlert(error));
+  };
 
+  const handleGetLocation = (e) => {
+    e.preventDefault();
+
+    getLocation(location)
+      .then((locationsList) => {
         switch (locationsList.length) {
           case 0:
             showErrorAlert('City does not exist');
             break;
           case 1:
-            console.log(locationsList);
+            setLocation(locationsList[0].title);
+            handleGetWeather(locationsList[0].id);
             break;
           default:
             setMultiLocations(locationsList);
             setOpen(true);
         }
-      });
+      })
+      .catch((error) => showErrorAlert(error));
   };
 
   const handleCloseList = () => {
     setOpen(false);
   };
 
+  const handleSelectLocation = (selectedLocation) => {
+    setLocation(selectedLocation.title);
+    handleGetWeather(selectedLocation.id);
+    handleCloseList();
+  };
+
   return (
-    <form className={classes.form} onSubmit={handleSubmitLocation}>
+    <form className={classes.form} onSubmit={handleGetLocation}>
       <div className={classes.textField}>
         <TextField
           variant="outlined"
           margin="normal"
+          value={location}
           required
           fullWidth
           id="location"
@@ -87,7 +99,7 @@ function LocationForm() {
         onClose={handleCloseList}
       >
         {multiLocations.map((loc) => (
-          <MenuItem key={loc.id} onClick={handleCloseList}>{loc.title}</MenuItem>
+          <MenuItem key={loc.id} onClick={() => handleSelectLocation(loc)}>{loc.title}</MenuItem>
         ))}
       </Menu>
       <Button
@@ -101,5 +113,9 @@ function LocationForm() {
     </form>
   );
 }
+
+LocationForm.propTypes = {
+  handleSetWeather: PropTypes.func.isRequired,
+};
 
 export default LocationForm;
