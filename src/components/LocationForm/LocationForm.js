@@ -106,8 +106,8 @@ function LocationForm({ handleSetWeather, handleShowLoading, showErrorAlert }) {
         open={open}
         onClose={handleCloseList}
       >
-        {multiLocations.map((loc, i) => (
-          <MenuItem key={loc.id} data-testid={`multiLocations-${i}`} onClick={() => handleSelectLocation(loc)}>{loc.title}</MenuItem>
+        {multiLocations.map((loc) => (
+          <MenuItem key={loc.id} data-testid="multiLocations" onClick={() => handleSelectLocation(loc)}>{loc.title}</MenuItem>
         ))}
       </Menu>
       <Button

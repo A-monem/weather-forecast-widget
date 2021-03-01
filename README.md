@@ -2,6 +2,9 @@
 It is an application that can used to check for weather forecast for the next four days. The application 
 is able to display almost all cities in the world. It displays a general description of the weather, maximum temprature, minimum temprature and wind speed.
 
+# Live demo
+https://limitless-dusk-13082.herokuapp.com/
+
 # How it works ?
 The application is connected to metaweather api. It uses two different apis. One to get location information and the other is to get weather information. Since metaweather api doesn't support CORS, the application hits a node server deployed on heroku, which in turn does all the api requests. The node server is using express and axios.
 

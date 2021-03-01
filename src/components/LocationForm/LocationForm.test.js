@@ -33,9 +33,7 @@ describe('component renders correctly', () => {
     />);
     expect(screen.getByRole('button')).toBeInTheDocument();
   });
-});
 
-describe('logic works correctly', () => {
   test('input box accepts text', () => {
     const handleSetWeather = jest.fn();
     const handleShowLoading = jest.fn();
@@ -67,7 +65,9 @@ describe('logic works correctly', () => {
 
     await waitFor(() => expect(handleShowLoading).toHaveBeenCalledTimes(1));
   });
+});
 
+describe('logic works correctly', () => {
   test('show error snakbar apears when typing wrong city "london123"', async () => {
     const mock = new MockAdapter(axios);
 
@@ -88,6 +88,7 @@ describe('logic works correctly', () => {
     fireEvent.click(screen.getByTestId('submit-button'));
 
     await waitFor(() => expect(showErrorAlert).toHaveBeenCalledTimes(1));
+    mock.reset();
   });
 
   test('menu with multi location appear when response has more than one city', async () => {
@@ -121,45 +122,51 @@ describe('logic works correctly', () => {
     fireEvent.click(screen.getByTestId('submit-button'));
 
     await waitFor(() => expect(screen.getAllByTestId(/multiLocations/i)).toHaveLength(2));
+    mock.reset();
   });
 
-  // test('select one city will show loading wheel again', async () => {
-  //   const mock = new MockAdapter(axios);
+  test('select one city will show loading wheel again', async () => {
+    const mock = new MockAdapter(axios);
 
-  //   mock.onGet('https://limitless-dusk-13082.herokuapp.com/api/location/lon')
-  //     .reply(200, [{
-  //       latt_long: '51.506321,-0.12714',
-  //       location_type: 'City',
-  //       title: 'London',
-  //       woeid: 44418,
-  //     },
-  //     {
-  //       latt_long: '41.385578,2.168740',
-  //       location_type: 'City',
-  //       title: 'Barcelona',
-  //       woeid: 753692,
-  //     }]);
+    mock.onGet('https://limitless-dusk-13082.herokuapp.com/api/location/lon')
+      .reply(200, [{
+        latt_long: '51.506321,-0.12714',
+        location_type: 'City',
+        title: 'London',
+        woeid: 44418,
+      },
+      {
+        latt_long: '41.385578,2.168740',
+        location_type: 'City',
+        title: 'Barcelona',
+        woeid: 753692,
+      }]);
 
-  //   const handleSetWeather = jest.fn();
-  //   const handleShowLoading = jest.fn();
-  //   const showErrorAlert = jest.fn();
+    mock.onGet('https://limitless-dusk-13082.herokuapp.com/api/weather/44418')
+      .reply(200, { consolidated_weather: [] });
 
-  //   render(<LocationForm
-  //     handleSetWeather={handleSetWeather}
-  //     handleShowLoading={handleShowLoading}
-  //     showErrorAlert={showErrorAlert}
-  //   />);
+    const handleSetWeather = jest.fn();
+    const handleShowLoading = jest.fn();
+    const showErrorAlert = jest.fn();
 
-  //   fireEvent.change(screen.getByLabelText('Enter Location *'), { target: { value: 'lon' } });
-  //   fireEvent.click(screen.getByTestId('submit-button'));
+    render(<LocationForm
+      handleSetWeather={handleSetWeather}
+      handleShowLoading={handleShowLoading}
+      showErrorAlert={showErrorAlert}
+    />);
 
-  //   const location = await screen.findByTestId('multiLocations-1');
+    fireEvent.change(screen.getByLabelText('Enter Location *'), { target: { value: 'lon' } });
+    fireEvent.click(screen.getByTestId('submit-button'));
 
-  //   fireEvent.click(location);
-  //   // showLoading will be called three times because it will disapear while displaying the
-  //   // menu of locations
-  //   await waitFor(() => expect(handleShowLoading).toHaveBeenCalledTimes(3));
-  // });
+    const locations = await screen.findAllByTestId('multiLocations');
+
+    fireEvent.click(locations[0]);
+
+    // showLoading will be called three times because it will disapear while displaying the
+    // menu of locations
+    await waitFor(() => expect(handleShowLoading).toHaveBeenCalledTimes(3));
+    mock.reset();
+  });
 
   test('request weather for London', async () => {
     const mock = new MockAdapter(axios);
@@ -224,5 +231,6 @@ describe('logic works correctly', () => {
     fireEvent.click(screen.getByTestId('submit-button'));
 
     await waitFor(() => expect(handleSetWeather).toHaveBeenCalledTimes(1));
+    mock.reset();
   });
 });
