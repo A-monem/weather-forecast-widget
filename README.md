@@ -6,8 +6,8 @@ is able to display almost all cities in the world. It displays a general descrip
 The application is connected to metaweather api. It uses two different apis. One to get location information and the other is to get weather information. Since metaweather api doesn't support CORS, the application hits a node server deployed on heroku, which in turn does all the api requests. The node server is using express and axios.
 
 # How can I run it ?
-run app => npm start
-run tests => npm test
+* run app => npm start
+* run tests => npm test
 
 # Built with
 

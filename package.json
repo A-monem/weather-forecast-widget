@@ -16,6 +16,7 @@
     "moment": "^2.29.1",
     "prop-types": "^15.7.2",
     "react": "16.14.0",
+    "react-dark-mode-toggle": "^0.2.0",
     "react-dom": "16.14.0",
     "react-scripts": "4.0.3",
     "web-vitals": "^1.1.0"

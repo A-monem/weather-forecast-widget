@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import {
-  Typography, Box, Paper, Grid, CircularProgress,
+  Typography, Box, Paper, Grid, CircularProgress, useMediaQuery,
 } from '@material-ui/core';
+import DarkModeToggle from 'react-dark-mode-toggle';
 import LocationForm from '../LocationForm';
 import WeatherCardContainer from '../WeatherCardContainer';
 import { useAlert } from '../../context/AlertContext';
+import { ThemeContext } from '../../context/ThemeContext';
 
 function Dashboard() {
   const [weather, setWeather] = useState([]);
@@ -13,9 +15,22 @@ function Dashboard() {
 
   const theme = useTheme();
   const { showErrorAlert } = useAlert();
+  const matches = useMediaQuery(theme.breakpoints.up('lg'));
+  const { darkMode, toggleTheme } = useContext(ThemeContext);
+
   const useStyles = makeStyles(() => ({
+    header: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
     paper: {
       padding: theme.spacing(2),
+    },
+    toggleButton: {
+      marginLeft: theme.spacing(4),
+      marginTop: theme.spacing(3),
     },
     loading: {
       display: 'flex',
@@ -36,8 +51,18 @@ function Dashboard() {
 
   return (
     <div>
-      <Box m={4}>
+      <Box className={classes.header} m={4}>
         <Typography variant="h3" color="primary" style={{ fontFamily: 'Pacifico', textAlign: 'center' }}>Welcome to my weather app</Typography>
+        {
+          matches && (
+          <DarkModeToggle
+            className={classes.toggleButton}
+            onChange={toggleTheme}
+            checked={darkMode}
+            size={60}
+          />
+          )
+        }
       </Box>
       <Grid container>
         <Grid item xs={12} sm={1} lg={2} />
