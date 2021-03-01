@@ -9,7 +9,7 @@ import { useAlert } from '../../context/AlertContext';
 
 function Dashboard() {
   const [weather, setWeather] = useState([]);
-  const [showLoading, setShowloading] = useState(false);
+  const [showLoading, setShowloading] = useState(false); // true will show loading wheel
 
   const theme = useTheme();
   const { showErrorAlert } = useAlert();

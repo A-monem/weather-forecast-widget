@@ -1,17 +1,18 @@
+/* eslint-disable max-len */
 import React, { useState, useRef } from 'react';
 import {
   Button, TextField, Menu, MenuItem,
 } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import { getWeather, getLocation } from '../../api/metaWeather';
+import { getWeather, getLocation } from '../../api/metaWeather'; // axios api
 
 function LocationForm({ handleSetWeather, handleShowLoading, showErrorAlert }) {
   const [location, setLocation] = useState('');
-  const [multiLocations, setMultiLocations] = useState([]);
-  const [open, setOpen] = useState(false);
+  const [multiLocations, setMultiLocations] = useState([]); // used to hold all cities returned by getLocation
+  const [open, setOpen] = useState(false); // open a menu of all cities returned by getLocation
 
-  const anchorRef = useRef(null);
+  const anchorRef = useRef(null); // ancher menu under input box
   const theme = useTheme();
 
   const useStyles = makeStyles(() => ({
@@ -35,6 +36,7 @@ function LocationForm({ handleSetWeather, handleShowLoading, showErrorAlert }) {
     setLocation(e.target.value);
   };
 
+  // calls metaWeather api to get weather of a particular city
   const handleGetWeather = (id) => {
     getWeather(id)
       .then((weatherInfo) => {
@@ -44,6 +46,7 @@ function LocationForm({ handleSetWeather, handleShowLoading, showErrorAlert }) {
       .catch((error) => showErrorAlert(error));
   };
 
+  // call metaWeather api to get location unique id
   const handleGetLocation = (e) => {
     e.preventDefault();
     handleShowLoading(true);

@@ -3,6 +3,7 @@ import Alert from '@material-ui/lab/Alert';
 import { Snackbar } from '@material-ui/core';
 import PropTypes from 'prop-types';
 
+// Alert passed in a context provider to be accessable by all components
 export const AlertContext = createContext();
 
 export function useAlert() {

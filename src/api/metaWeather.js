@@ -30,8 +30,6 @@ const getLocation = (location) => new Promise((resolve, reject) => {
   try {
     axios.get(`https://limitless-dusk-13082.herokuapp.com/api/location/${location}`)
       .then((response) => {
-        console.log(response);
-
         const locationsList = response.data.map((loc) => ({ title: loc.title, id: loc.woeid }));
 
         resolve(locationsList);
