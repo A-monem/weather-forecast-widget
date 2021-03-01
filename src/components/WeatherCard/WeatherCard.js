@@ -29,24 +29,24 @@ function WeatherCard({ dayWeather }) {
           </Typography>
         </CardMedia>
         <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
+          <Typography gutterBottom variant="h6">
             {dayWeather.day}
           </Typography>
-          <Typography variant="caption" color="textSecondary" component="p">
+          <Typography variant="caption" color="textSecondary" component="p" data-testid="max-temp">
             Max temprature:
             {' '}
             {dayWeather.maxTemp}
             {' '}
             C
           </Typography>
-          <Typography variant="caption" color="textSecondary" component="p">
+          <Typography variant="caption" color="textSecondary" component="p" data-testid="min-temp">
             Min temprature:
             {' '}
             {dayWeather.minTemp}
             {' '}
             C
           </Typography>
-          <Typography variant="caption" color="textSecondary" component="p">
+          <Typography variant="caption" color="textSecondary" component="p" data-testid="wind-speed">
             Wind speed:
             {' '}
             {dayWeather.windSpeed}

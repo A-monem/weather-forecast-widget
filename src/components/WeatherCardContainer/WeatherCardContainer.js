@@ -6,10 +6,10 @@ import WeatherCard from '../WeatherCard';
 function WeatherCardContainer({ weather }) {
   return (
     <>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} data-testid="weather-container">
         {weather.map((dayWeather) => (
           <Grow key={dayWeather.day} in>
-            <Grid item xs={12} lg={3}>
+            <Grid item xs={12} sm={6} lg={3} data-testid="weather-item">
               <WeatherCard dayWeather={dayWeather} />
             </Grid>
           </Grow>
