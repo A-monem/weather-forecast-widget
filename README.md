@@ -27,6 +27,8 @@ The application is connected to metaweather api. It uses two different apis. One
 
 ![Dashboard screenshot](/screenshots/Capture_1.JPG)
 
+![Dashboard Dark Mode screenshot](/screenshots/Capture_4.JPG)
+
 ![Menu screenshot](/screenshots/Capture_2.JPG)
 
 ![Weather screenshot](/screenshots/Capture_3.JPG)
