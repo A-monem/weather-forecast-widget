@@ -50,7 +50,7 @@ class AlertContextProvider extends Component {
         }}
       >
         {children}
-        <Snackbar open={openError} autoHideDuration={6000} onClose={this.handleErrorClose}>
+        <Snackbar data-testid="error-snakbar" open={openError} autoHideDuration={6000} onClose={this.handleErrorClose}>
           <Alert onClose={this.handleErrorClose} severity="error">
             {message}
           </Alert>

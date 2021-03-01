@@ -5,12 +5,14 @@ import {
 } from '@material-ui/core';
 import LocationForm from '../LocationForm';
 import WeatherCardContainer from '../WeatherCardContainer';
+import { useAlert } from '../../context/AlertContext';
 
 function Dashboard() {
   const [weather, setWeather] = useState([]);
   const [showLoading, setShowloading] = useState(false);
 
   const theme = useTheme();
+  const { showErrorAlert } = useAlert();
   const useStyles = makeStyles(() => ({
     paper: {
       padding: theme.spacing(2),
@@ -44,6 +46,7 @@ function Dashboard() {
             <LocationForm
               handleSetWeather={handleSetWeather}
               handleShowLoading={handleShowLoading}
+              showErrorAlert={showErrorAlert}
             />
           </Paper>
           <Box mt={4}>

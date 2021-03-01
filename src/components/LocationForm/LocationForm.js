@@ -4,17 +4,15 @@ import {
 } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import { useAlert } from '../../context/AlertContext';
 import { getWeather, getLocation } from '../../api/metaWeather';
 
-function LocationForm({ handleSetWeather, handleShowLoading }) {
+function LocationForm({ handleSetWeather, handleShowLoading, showErrorAlert }) {
   const [location, setLocation] = useState('');
   const [multiLocations, setMultiLocations] = useState([]);
   const [open, setOpen] = useState(false);
 
   const anchorRef = useRef(null);
   const theme = useTheme();
-  const { showErrorAlert } = useAlert();
 
   const useStyles = makeStyles(() => ({
     form: {
@@ -105,8 +103,8 @@ function LocationForm({ handleSetWeather, handleShowLoading }) {
         open={open}
         onClose={handleCloseList}
       >
-        {multiLocations.map((loc) => (
-          <MenuItem key={loc.id} onClick={() => handleSelectLocation(loc)}>{loc.title}</MenuItem>
+        {multiLocations.map((loc, i) => (
+          <MenuItem key={loc.id} data-testid={`multiLocations-${i}`} onClick={() => handleSelectLocation(loc)}>{loc.title}</MenuItem>
         ))}
       </Menu>
       <Button
@@ -114,6 +112,7 @@ function LocationForm({ handleSetWeather, handleShowLoading }) {
         color="secondary"
         type="submit"
         className={classes.button}
+        data-testid="submit-button"
       >
         Submit
       </Button>
@@ -124,6 +123,7 @@ function LocationForm({ handleSetWeather, handleShowLoading }) {
 LocationForm.propTypes = {
   handleSetWeather: PropTypes.func.isRequired,
   handleShowLoading: PropTypes.func.isRequired,
+  showErrorAlert: PropTypes.func.isRequired,
 };
 
 export default LocationForm;
